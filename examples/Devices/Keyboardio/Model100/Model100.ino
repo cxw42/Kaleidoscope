@@ -748,6 +748,11 @@ void setup() {
   // firmware starts with LED effects off. This avoids over-taxing devices that
   // don't have a lot of power to share with USB devices
   DefaultLEDModeConfig.activateLEDModeIfUnconfigured(&LEDOff);
+
+  // By default, use the keymap in this program, NOT the keymap in EEPROM.
+  // This is because I am using substantially the same firmware here as on
+  // my Model01.
+  Layer.getKey = Layer.getKeyFromPROGMEM;
 }
 
 /** loop is the second of the standard Arduino sketch functions.
@@ -760,3 +765,5 @@ void setup() {
 void loop() {
   Kaleidoscope.loop();
 }
+
+// vi: set ai: //
