@@ -2,6 +2,10 @@
 // Copyright 2016-2022 Keyboardio, inc. <jesse@keyboard.io>
 // See "LICENSE" for license details
 
+#ifndef BUILD_INFORMATION
+#define BUILD_INFORMATION (" locally built on " __DATE__ " at " __TIME__)
+#endif
+
 /**
  * These #include directives pull in the Kaleidoscope firmware core,
  * as well as the Kaleidoscope plugins we use in the Model 100's firmware
@@ -349,6 +353,7 @@ static void versionInfoMacro(uint8_t key_state) {
   if (keyToggledOn(key_state)) {
     Macros.type(PSTR("Keyboardio Model 100 - Firmware version "));
     Macros.type(PSTR(KALEIDOSCOPE_FIRMWARE_VERSION));
+    Macros.type(PSTR(BUILD_INFORMATION));
   }
 }
 
