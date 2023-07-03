@@ -2,9 +2,34 @@
 // Copyright 2016-2022 Keyboardio, inc. <jesse@keyboard.io>
 // See "LICENSE" for license details
 
+//===========================================================================
+// This block is copyright (c) Pádraig Brady 2008-2016, from
+// http://www.pixelbeat.org/programming/gcc/static_assert.html .
+// Copying and distribution of this block, with or without modification,
+// are permitted in any medium without royalty provided the copyright notice
+// and this notice are preserved. This block is offered as-is, without any warranty.
+#define ASSERT_CONCAT_(a, b) a##b
+#define ASSERT_CONCAT(a, b) ASSERT_CONCAT_(a, b)
+/* These can't be used after statements in c89. */
+#ifdef __COUNTER__
+  #define STATIC_ASSERT(e,m) \
+    ;enum { ASSERT_CONCAT(static_assert_, __COUNTER__) = 1/(int)(!!(e)) }
+#else
+  /* This can't be used twice on the same line so ensure if using in headers
+   * that the headers are not included twice (by wrapping in #ifndef...#endif)
+   * Note it doesn't cause an issue when used on same line of separate modules
+   * compiled with gcc -combine -fwhole-program.  */
+  #define STATIC_ASSERT(e,m) \
+    ;enum { ASSERT_CONCAT(assert_line_, __LINE__) = 1/(int)(!!(e)) }
+#endif
+//===========================================================================
+
 #ifndef BUILD_INFORMATION
 #define BUILD_INFORMATION (" locally built on " __DATE__ " at " __TIME__)
 #endif
+
+/* How many layers we save room for in the EEPROM */
+#define LAYER_SPACE (8)
 
 /**
  * These #include directives pull in the Kaleidoscope firmware core,
@@ -175,8 +200,10 @@ enum {
   PRIMARY,
   NUMPAD,
   FUNCTION,
+  NUM_LAYERS,
 };  // layers
 
+STATIC_ASSERT(NUM_LAYERS <= LAYER_SPACE, "Increase LAYER_SPACE to save room for that many layers");
 
 /**
   * To change your keyboard's layout from QWERTY to DVORAK or COLEMAK, comment out the line
@@ -716,13 +743,12 @@ void setup() {
   // one wants to use these layers, just set the default layer to one in EEPROM,
   // by using the `settings.defaultLayer` Focus command, or by using the
   // `keymap.onlyCustom` command to use EEPROM layers only.
-  EEPROMKeymap.setup(8);
+  EEPROMKeymap.setup(NUM_LAYERS);
 
   // We need to tell the Colormap plugin how many layers we want to have custom
   // maps for. To make things simple, we set it to eight layers, which is how
   // many editable layers we have (see above).
-  ColormapEffect.max_layers(8);
-  DefaultColormap.setup();
+  ColormapEffect.max_layers(NUM_LAYERS);
 
   // For Dynamic Macros, we need to reserve storage space for the editable
   // macros. A kilobyte is a reasonable default.
