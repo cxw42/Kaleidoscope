@@ -684,39 +684,13 @@ void setup() {
   // First, call Kaleidoscope's internal setup function
   Kaleidoscope.setup();
 
-  // Add colormap overlays for all keys of the numpad. This makes sure that
-  // all keys of the numpad light up once the numpad layer is active.
-  //
-  // The call signature is:
-  // kaleidoscope::plugin::Overlay(<layer>, <key_address>, <palette_index>)
-  //
-  // Key address matrix: https://github.com/keyboardio/Kaleidoscope/blob/master/plugins/Kaleidoscope-Hardware-Keyboardio-Model100/src/kaleidoscope/device/keyboardio/Model100.h#L175-L205
-  //
-  // (0, 0) (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) (0, 6) | (0, 9) (0, 10) (0, 11) (0, 12) (0, 13) (0, 14) (0, 15)
-  // (1, 0) (1, 1) (1, 2) (1, 3) (1, 4) (1, 5) (1, 6) | (1, 9) (1, 10) (1, 11) (1, 12) (1, 13) (1, 14) (1, 15)
-  // (2, 0) (2, 1) (2, 2) (2, 3) (2, 4) (2, 5)        |        (2, 10) (2, 11) (2, 12) (2, 13) (2, 14) (2, 15)
-  // (3, 0) (3, 1) (3, 2) (3, 3) (3, 4) (3, 5) (2, 6) | (2, 9) (3, 10) (3, 11) (3, 12) (3, 13) (3, 14) (3, 15)
-  //                      (0, 7) (1, 7) (2, 7) (3, 7) | (3, 8) (2, 8)  (1, 8)  (0, 8)
-  //                                           (3, 6) | (3, 9)
-  COLORMAP_OVERLAYS(
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(0, 11), 23),  // 7
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(1, 11), 23),  // 4
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(2, 11), 23),  // 1
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(3, 11), 23),  // 0
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(0, 12), 23),  // 8
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(1, 12), 23),  // 5
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(2, 12), 23),  // 2
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(3, 12), 23),  // period
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(0, 13), 23),  // 9
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(1, 13), 23),  // 6
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(2, 13), 23),  // 3
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(3, 13), 23),  // multiply
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(0, 14), 23),  // substract
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(1, 14), 23),  // add
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(2, 14), 23),  // equals
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(3, 14), 23),  // divide
-    kaleidoscope::plugin::Overlay(NUMPAD, KeyAddr(3, 15), 23),  // enter
-    )                                                           // COLORMAP_OVERLAYS(
+  // We want to make sure that the firmware starts with LED effects off
+  // This avoids over-taxing devices that don't have a lot of power to share
+  // with USB devices
+  LEDOff.activate();
+
+  // LED-off timeout on idle: 3 min.
+  IdleLEDs.setIdleTimeoutSeconds(3*60);
 
   // Set the hue of the boot greeting effect to something that will result in a
   // nice green color.
@@ -748,7 +722,7 @@ void setup() {
   // We need to tell the Colormap plugin how many layers we want to have custom
   // maps for. To make things simple, we set it to eight layers, which is how
   // many editable layers we have (see above).
-  ColormapEffect.max_layers(NUM_LAYERS);
+  // ColormapEffect.max_layers(NUM_LAYERS);
 
   // For Dynamic Macros, we need to reserve storage space for the editable
   // macros. A kilobyte is a reasonable default.
@@ -768,15 +742,12 @@ void setup() {
   // reserve 17 / layer in total.
   //LayerNames.reserve_storage(17 * 8);
 
-  // Unless configured otherwise with Chrysalis, we want to make sure that the
-  // firmware starts with LED effects off. This avoids over-taxing devices that
-  // don't have a lot of power to share with USB devices
-  DefaultLEDModeConfig.activateLEDModeIfUnconfigured(&LEDOff);
-
   // By default, use the keymap in this program, NOT the keymap in EEPROM.
   // This is because I am using substantially the same firmware here as on
   // my Model01.
   Layer.getKey = Layer.getKeyFromPROGMEM;
+
+  solidRed.activate();
 }
 
 /** loop is the second of the standard Arduino sketch functions.
