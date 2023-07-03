@@ -35,25 +35,25 @@
 
 // Support for the "Boot greeting" effect, which pulses the 'LED' button for 10s
 // when the keyboard is connected to a computer (or that computer is powered on)
-#include "Kaleidoscope-LEDEffect-BootGreeting.h"
+//#include "Kaleidoscope-LEDEffect-BootGreeting.h"
 
 // Support for LED modes that set all LEDs to a single color
 #include "Kaleidoscope-LEDEffect-SolidColor.h"
 
 // Support for an LED mode that makes all the LEDs 'breathe'
-#include "Kaleidoscope-LEDEffect-Breathe.h"
+//#include "Kaleidoscope-LEDEffect-Breathe.h"
 
 // Support for an LED mode that makes a red pixel chase a blue pixel across the keyboard
-#include "Kaleidoscope-LEDEffect-Chase.h"
+//#include "Kaleidoscope-LEDEffect-Chase.h"
 
 // Support for LED modes that pulse the keyboard's LED in a rainbow pattern
-#include "Kaleidoscope-LEDEffect-Rainbow.h"
+//#include "Kaleidoscope-LEDEffect-Rainbow.h"
 
 // Support for an LED mode that lights up the keys as you press them
-#include "Kaleidoscope-LED-Stalker.h"
+//#include "Kaleidoscope-LED-Stalker.h"
 
 // Support for an LED mode that prints the keys you press in letters 4px high
-#include "Kaleidoscope-LED-AlphaSquare.h"
+//#include "Kaleidoscope-LED-AlphaSquare.h"
 
 // Support for shared palettes for other plugins, like Colormap below
 #include "Kaleidoscope-LED-Palette-Theme.h"
@@ -71,7 +71,7 @@
 #include "Kaleidoscope-DefaultLEDModeConfig.h"
 
 // Support for changing the brightness of the LEDs
-#include "Kaleidoscope-LEDBrightnessConfig.h"
+//#include "Kaleidoscope-LEDBrightnessConfig.h"
 
 // Support for Keyboardio's internal keyboard testing mode
 #include "Kaleidoscope-HardwareTestMode.h"
@@ -93,16 +93,16 @@
 #include "Kaleidoscope-Escape-OneShot.h"
 
 // Support for dynamic, Chrysalis-editable macros
-#include "Kaleidoscope-DynamicMacros.h"
+//#include "Kaleidoscope-DynamicMacros.h"
 
 // Support for SpaceCadet keys
-#include "Kaleidoscope-SpaceCadet.h"
+//#include "Kaleidoscope-SpaceCadet.h"
 
 // Support for editable layer names
-#include "Kaleidoscope-LayerNames.h"
+//#include "Kaleidoscope-LayerNames.h"
 
 // Support for the GeminiPR Stenography protocol
-#include "Kaleidoscope-Steno.h"
+//#include "Kaleidoscope-Steno.h"
 
 /** This 'enum' is a list of all the macros used by the Model 100's firmware
   * The names aren't particularly important. What is important is that each
@@ -522,14 +522,14 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // The LayerNames plugin allows Chrysalis to display - and edit - custom layer
   // names, to be shown instead of the default indexes.
-  LayerNames,
+  //LayerNames,
 
   // Enables setting, saving (via Chrysalis), and restoring (on boot) the
   // default LED mode.
   DefaultLEDModeConfig,
 
   // Enables controlling (and saving) the brightness of the LEDs via Focus.
-  LEDBrightnessConfig,
+  //LEDBrightnessConfig,
 
   // ----------------------------------------------------------------------
   // Keystroke-handling plugins
@@ -542,8 +542,8 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // SpaceCadet can turn your shifts into parens on tap, while keeping them as
   // Shifts when held. SpaceCadetConfig lets Chrysalis configure some aspects of
   // the plugin.
-  SpaceCadet,
-  SpaceCadetConfig,
+  //SpaceCadet,
+  //SpaceCadetConfig,
 
   // Enables the "Sticky" behavior for modifiers, and the "Layer shift when
   // held" functionality for layer keys.
@@ -556,7 +556,7 @@ KALEIDOSCOPE_INIT_PLUGINS(
   Macros,
 
   // Enables dynamic, Chrysalis-editable macros.
-  DynamicMacros,
+  //DynamicMacros,
 
   // The MouseKeys plugin lets you add keys to your keymap which move the mouse.
   MouseKeys,
@@ -569,14 +569,14 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // Enables the GeminiPR Stenography protocol. Unused by default, but with the
   // plugin enabled, it becomes configurable - and then usable - via Chrysalis.
-  GeminiPR,
+  //GeminiPR,
 
   // ----------------------------------------------------------------------
   // LED mode plugins
 
   // The boot greeting effect pulses the LED button for 10 seconds after the
   // keyboard is first connected
-  BootGreetingEffect,
+  //BootGreetingEffect,
 
   // LEDControl provides support for other LED modes
   LEDControl,
@@ -586,34 +586,34 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // The rainbow effect changes the color of all of the keyboard's keys at the same time
   // running through all the colors of the rainbow.
-  LEDRainbowEffect,
+  //LEDRainbowEffect,
 
   // The rainbow wave effect lights up your keyboard with all the colors of a rainbow
   // and slowly moves the rainbow across your keyboard
-  LEDRainbowWaveEffect,
+  //LEDRainbowWaveEffect,
 
   // The chase effect follows the adventure of a blue pixel which chases a red pixel across
   // your keyboard. Spoiler: the blue pixel never catches the red pixel
-  LEDChaseEffect,
+  //LEDChaseEffect,
 
   // These static effects turn your keyboard's LEDs a variety of colors
   solidRed,
-  solidOrange,
-  solidYellow,
-  solidGreen,
-  solidBlue,
-  solidIndigo,
-  solidViolet,
+  //solidOrange,
+  //solidYellow,
+  //solidGreen,
+  //solidBlue,
+  //solidIndigo,
+  //solidViolet,
 
   // The breathe effect slowly pulses all of the LEDs on your keyboard
-  LEDBreatheEffect,
+  //LEDBreatheEffect,
 
   // The AlphaSquare effect prints each character you type, using your
   // keyboard's LEDs as a display
-  AlphaSquareEffect,
+  //AlphaSquareEffect,
 
   // The stalker effect lights up the keys you've pressed recently
-  StalkerEffect,
+  //StalkerEffect,
 
   // The LED Palette Theme plugin provides a shared palette for other plugins,
   // like Colormap below
@@ -633,7 +633,7 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // Turns LEDs off after a configurable amount of idle time.
   IdleLEDs,
-  PersistentIdleLEDs,
+  //PersistentIdleLEDs,
 
   // ----------------------------------------------------------------------
   // Miscellaneous plugins
@@ -693,15 +693,15 @@ void setup() {
 
   // Set the hue of the boot greeting effect to something that will result in a
   // nice green color.
-  BootGreetingEffect.hue = 85;
+  //BootGreetingEffect.hue = 85;
 
   // We configure the AlphaSquare effect to use RED letters
-  AlphaSquare.color = CRGB(255, 0, 0);
+  //AlphaSquare.color = CRGB(255, 0, 0);
 
   // Set the rainbow effects to be reasonably bright, but low enough
   // to mitigate audible noise in some environments.
-  LEDRainbowEffect.brightness(170);
-  LEDRainbowWaveEffect.brightness(160);
+  //LEDRainbowEffect.brightness(170);
+  //LEDRainbowWaveEffect.brightness(160);
 
   // Set the action key the test mode should listen for to Left Fn
   HardwareTestMode.setActionKey(R3C6);
@@ -709,7 +709,7 @@ void setup() {
   // The LED Stalker mode has a few effects. The one we like is called
   // 'BlazingTrail'. For details on other options, see
   // https://github.com/keyboardio/Kaleidoscope/blob/master/plugins/Kaleidoscope-LED-Stalker/README.md
-  StalkerEffect.variant = STALKER(BlazingTrail);
+  // StalkerEffect.variant = STALKER(BlazingTrail);
 
   // To make the keymap editable without flashing new firmware, we store
   // additional layers in EEPROM. For now, we reserve space for eight layers. If
@@ -726,7 +726,7 @@ void setup() {
 
   // For Dynamic Macros, we need to reserve storage space for the editable
   // macros. A kilobyte is a reasonable default.
-  DynamicMacros.reserve_storage(1024);
+  //DynamicMacros.reserve_storage(1024);
 
   // If there's a default layer set in EEPROM, we should set that as the default
   // here.
@@ -735,12 +735,12 @@ void setup() {
   // To avoid any surprises, SpaceCadet is turned off by default. However, it
   // can be permanently enabled via Chrysalis, so we should only disable it if
   // no configuration exists.
-  SpaceCadetConfig.disableSpaceCadetIfUnconfigured();
+  //SpaceCadetConfig.disableSpaceCadetIfUnconfigured();
 
   // Editable layer names are stored in EEPROM too, and we reserve 16 bytes per
   // layer for them. We need one extra byte per layer for bookkeeping, so we
   // reserve 17 / layer in total.
-  LayerNames.reserve_storage(17 * 8);
+  //LayerNames.reserve_storage(17 * 8);
 
   // Unless configured otherwise with Chrysalis, we want to make sure that the
   // firmware starts with LED effects off. This avoids over-taxing devices that
