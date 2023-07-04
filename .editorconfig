@@ -3,7 +3,3 @@ root=true
 [*.ino]
 indent_size = 2
 indent_style = space
-
-[run.sh]
-indent_size = 4
-indent_style = space
