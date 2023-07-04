@@ -390,17 +390,6 @@ static void toggleKeyboardProtocol(uint8_t combo_index) {
 }
 
 /**
- * Toggles between using the built-in keymap, and the EEPROM-stored one.
- */
-static void toggleKeymapSource(uint8_t combo_index) {
-  if (Layer.getKey == Layer.getKeyFromPROGMEM) {
-    Layer.getKey = EEPROMKeymap.getKey;
-  } else {
-    Layer.getKey = Layer.getKeyFromPROGMEM;
-  }
-}
-
-/**
  *  This enters the hardware test mode
  */
 static void enterHardwareTestMode(uint8_t combo_index) {
