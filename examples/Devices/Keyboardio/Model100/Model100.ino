@@ -58,10 +58,6 @@
 // Support for controlling the keyboard's LEDs
 #include "Kaleidoscope-LEDControl.h"
 
-// Support for the "Boot greeting" effect, which pulses the 'LED' button for 10s
-// when the keyboard is connected to a computer (or that computer is powered on)
-//#include "Kaleidoscope-LEDEffect-BootGreeting.h"
-
 // Support for LED modes that set all LEDs to a single color
 #include "Kaleidoscope-LEDEffect-SolidColor.h"
 
@@ -562,14 +558,12 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // The Colormap effect makes it possible to set up per-layer colormaps
   ColormapEffect,
 
-  // The colormap overlay plugin provides a way to set LED colors regardless of
-  // the active LED effect. This is used for lighting up the keys assigned in
-  // the factory 'numpad' mode
-  ColormapOverlay,
-
   // The HostPowerManagement plugin allows us to turn LEDs off when then host
   // goes to sleep, and resume them when it wakes up.
   HostPowerManagement,
+
+  // The macros plugin adds support for macros
+  Macros,
 
   // Turns LEDs off after a configurable amount of idle time.
   IdleLEDs,
@@ -616,13 +610,6 @@ void setup() {
 
   // LED-off timeout on idle: 3 min.
   IdleLEDs.setIdleTimeoutSeconds(3*60);
-
-  // Set the hue of the boot greeting effect to something that will result in a
-  // nice green color.
-  //BootGreetingEffect.hue = 85;
-
-  // We configure the AlphaSquare effect to use RED letters
-  //AlphaSquare.color = CRGB(255, 0, 0);
 
   // Set the rainbow effects to be reasonably bright, but low enough
   // to mitigate audible noise in some environments.
