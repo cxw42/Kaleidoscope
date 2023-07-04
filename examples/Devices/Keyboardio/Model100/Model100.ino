@@ -61,21 +61,6 @@
 // Support for LED modes that set all LEDs to a single color
 #include "Kaleidoscope-LEDEffect-SolidColor.h"
 
-// Support for an LED mode that makes all the LEDs 'breathe'
-//#include "Kaleidoscope-LEDEffect-Breathe.h"
-
-// Support for an LED mode that makes a red pixel chase a blue pixel across the keyboard
-//#include "Kaleidoscope-LEDEffect-Chase.h"
-
-// Support for LED modes that pulse the keyboard's LED in a rainbow pattern
-//#include "Kaleidoscope-LEDEffect-Rainbow.h"
-
-// Support for an LED mode that lights up the keys as you press them
-//#include "Kaleidoscope-LED-Stalker.h"
-
-// Support for an LED mode that prints the keys you press in letters 4px high
-//#include "Kaleidoscope-LED-AlphaSquare.h"
-
 // Support for shared palettes for other plugins, like Colormap below
 #include "Kaleidoscope-LED-Palette-Theme.h"
 
@@ -112,18 +97,6 @@
 // Support for one-shot modifiers and layer keys
 #include "Kaleidoscope-OneShot.h"
 #include "Kaleidoscope-Escape-OneShot.h"
-
-// Support for dynamic, Chrysalis-editable macros
-//#include "Kaleidoscope-DynamicMacros.h"
-
-// Support for SpaceCadet keys
-//#include "Kaleidoscope-SpaceCadet.h"
-
-// Support for editable layer names
-//#include "Kaleidoscope-LayerNames.h"
-
-// Support for the GeminiPR Stenography protocol
-//#include "Kaleidoscope-Steno.h"
 
 /** This 'enum' is a list of all the macros used by the Model 100's firmware
   * The names aren't particularly important. What is important is that each
@@ -470,25 +443,12 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // programmatically.
   FirmwareVersion,
 
-  // The LayerNames plugin allows Chrysalis to display - and edit - custom layer
-  // names, to be shown instead of the default indexes.
-  //LayerNames,
-
   // Enables setting, saving (via Chrysalis), and restoring (on boot) the
   // default LED mode.
   DefaultLEDModeConfig,
 
-  // Enables controlling (and saving) the brightness of the LEDs via Focus.
-  //LEDBrightnessConfig,
-
   // ----------------------------------------------------------------------
   // Keystroke-handling plugins
-
-  // SpaceCadet can turn your shifts into parens on tap, while keeping them as
-  // Shifts when held. SpaceCadetConfig lets Chrysalis configure some aspects of
-  // the plugin.
-  //SpaceCadet,
-  //SpaceCadetConfig,
 
   // Enables the "Sticky" behavior for modifiers, and the "Layer shift when
   // held" functionality for layer keys.
@@ -512,44 +472,14 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // same time.
   MagicCombo,
 
-  // Enables the GeminiPR Stenography protocol. Unused by default, but with the
-  // plugin enabled, it becomes configurable - and then usable - via Chrysalis.
-  //GeminiPR,
-
   // ----------------------------------------------------------------------
   // LED mode plugins
-
-  // The boot greeting effect pulses the LED button for 10 seconds after the
-  // keyboard is first connected
-  //BootGreetingEffect,
 
   // LEDControl provides support for other LED modes
   LEDControl,
 
   // We start with the LED effect that turns off all the LEDs.
   LEDOff,
-
-  // The rainbow effect changes the color of all of the keyboard's keys at the same time
-  // running through all the colors of the rainbow.
-  //LEDRainbowEffect,
-
-  // The rainbow wave effect lights up your keyboard with all the colors of a rainbow
-  // and slowly moves the rainbow across your keyboard
-  //LEDRainbowWaveEffect,
-
-  // The chase effect follows the adventure of a blue pixel which chases a red pixel across
-  // your keyboard. Spoiler: the blue pixel never catches the red pixel
-  //LEDChaseEffect,
-
-  // The breathe effect slowly pulses all of the LEDs on your keyboard
-  //LEDBreatheEffect,
-
-  // The AlphaSquare effect prints each character you type, using your
-  // keyboard's LEDs as a display
-  //AlphaSquareEffect,
-
-  // The stalker effect lights up the keys you've pressed recently
-  //StalkerEffect,
 
   // The LED Palette Theme plugin provides a shared palette for other plugins,
   // like Colormap below
@@ -567,7 +497,6 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // Turns LEDs off after a configurable amount of idle time.
   IdleLEDs,
-  //PersistentIdleLEDs,
 
   // ----------------------------------------------------------------------
   // Miscellaneous plugins
@@ -580,7 +509,7 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // The hardware test mode, which can be invoked by tapping Prog, LED and the
   // left Fn button at the same time.
-  HardwareTestMode  //,
+  HardwareTestMode
 );
 
 /** The 'setup' function is one of the two standard Arduino sketch functions.
@@ -611,24 +540,11 @@ void setup() {
   // LED-off timeout on idle: 3 min.
   IdleLEDs.setIdleTimeoutSeconds(3*60);
 
-  // Set the rainbow effects to be reasonably bright, but low enough
-  // to mitigate audible noise in some environments.
-  //LEDRainbowEffect.brightness(170);
-  //LEDRainbowWaveEffect.brightness(160);
-
   // Set the action key the test mode should listen for to Left Fn
   HardwareTestMode.setActionKey(R3C6);
 
-  // The LED Stalker mode has a few effects. The one we like is called
-  // 'BlazingTrail'. For details on other options, see
-  // https://github.com/keyboardio/Kaleidoscope/blob/master/plugins/Kaleidoscope-LED-Stalker/README.md
-  // StalkerEffect.variant = STALKER(BlazingTrail);
-
   // To make the keymap editable without flashing new firmware, we store
-  // additional layers in EEPROM. For now, we reserve space for eight layers. If
-  // one wants to use these layers, just set the default layer to one in EEPROM,
-  // by using the `settings.defaultLayer` Focus command, or by using the
-  // `keymap.onlyCustom` command to use EEPROM layers only.
+  // additional layers in EEPROM.
   EEPROMKeymap.setup(NUM_LAYERS);
 
   // We need to tell the Colormap plugin how many layers we want to have custom
@@ -636,23 +552,9 @@ void setup() {
   ColormapEffect.max_layers(NUM_LAYERS);
   ColormapEffect.activate();
 
-  // For Dynamic Macros, we need to reserve storage space for the editable
-  // macros. A kilobyte is a reasonable default.
-  //DynamicMacros.reserve_storage(1024);
-
   // If there's a default layer set in EEPROM, we should set that as the default
   // here.
   Layer.move(EEPROMSettings.default_layer());
-
-  // To avoid any surprises, SpaceCadet is turned off by default. However, it
-  // can be permanently enabled via Chrysalis, so we should only disable it if
-  // no configuration exists.
-  //SpaceCadetConfig.disableSpaceCadetIfUnconfigured();
-
-  // Editable layer names are stored in EEPROM too, and we reserve 16 bytes per
-  // layer for them. We need one extra byte per layer for bookkeeping, so we
-  // reserve 17 / layer in total.
-  //LayerNames.reserve_storage(17 * 8);
 
   // By default, use the keymap in this program, NOT the keymap in EEPROM.
   // This is because I am using substantially the same firmware here as on
