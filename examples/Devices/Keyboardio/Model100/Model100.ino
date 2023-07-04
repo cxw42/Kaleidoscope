@@ -478,9 +478,6 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // LEDControl provides support for other LED modes
   LEDControl,
 
-  // We start with the LED effect that turns off all the LEDs.
-  LEDOff,
-
   // The LED Palette Theme plugin provides a shared palette for other plugins,
   // like Colormap below
   LEDPaletteTheme,
@@ -532,11 +529,6 @@ void setup() {
   // First, call Kaleidoscope's internal setup function
   Kaleidoscope.setup();
 
-  // We want to make sure that the firmware starts with LED effects off
-  // This avoids over-taxing devices that don't have a lot of power to share
-  // with USB devices
-  LEDOff.activate();
-
   // LED-off timeout on idle: 3 min.
   IdleLEDs.setIdleTimeoutSeconds(3*60);
 
@@ -550,16 +542,22 @@ void setup() {
   // We need to tell the Colormap plugin how many layers we want to have custom
   // maps for.
   ColormapEffect.max_layers(NUM_LAYERS);
-  ColormapEffect.activate();
-
-  // If there's a default layer set in EEPROM, we should set that as the default
-  // here.
-  Layer.move(EEPROMSettings.default_layer());
 
   // By default, use the keymap in this program, NOT the keymap in EEPROM.
   // This is because I am using substantially the same firmware here as on
   // my Model01.
   Layer.getKey = Layer.getKeyFromPROGMEM;
+
+  // Activate layer 0 so that ColormapEffect will set the LEDs that way on
+  // startup.  If you hold down a layer-shift key while plugging in the
+  // keyboard, that's your problem ;) .
+  Layer.activate(PRIMARY);
+
+  // Fire up the LEDs
+  DefaultLEDModeConfig.activateLEDModeIfUnconfigured(&ColormapEffect);
+  LEDControl.syncLeds();
+  ColormapEffect.activate();
+  LEDControl.refreshAll();
 }
 
 /** loop is the second of the standard Arduino sketch functions.
