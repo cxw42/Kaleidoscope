@@ -454,6 +454,12 @@ USE_MAGIC_COMBOS({.action = toggleKeyboardProtocol,
 // The order can be important. For example, LED effects are
 // added in the order they're listed here.
 KALEIDOSCOPE_INIT_PLUGINS(
+  // The Qukeys plugin enables the "Secondary action" functionality in
+  // Chrysalis. Keys with secondary actions will have their primary action
+  // performed when tapped, but the secondary action when held.
+  // Listed first per <https://kaleidoscope.readthedocs.io/en/latest/plugins/Kaleidoscope-Qukeys.html#setup>.
+  Qukeys,
+
   // ----------------------------------------------------------------------
   // Chrysalis plugins
 
@@ -492,11 +498,6 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // ----------------------------------------------------------------------
   // Keystroke-handling plugins
-
-  // The Qukeys plugin enables the "Secondary action" functionality in
-  // Chrysalis. Keys with secondary actions will have their primary action
-  // performed when tapped, but the secondary action when held.
-  Qukeys,
 
   // SpaceCadet can turn your shifts into parens on tap, while keeping them as
   // Shifts when held. SpaceCadetConfig lets Chrysalis configure some aspects of
@@ -613,6 +614,18 @@ KALEIDOSCOPE_INIT_PLUGINS(
  * Kaleidoscope and any plugins.
  */
 void setup() {
+
+  // Before K.setup() per the example
+  QUKEYS(
+    // Prog, when held or used in a chord, shifts to the FPROG layer.
+    kaleidoscope::plugin::Qukey(0, KeyAddr(0, 0), ShiftToLayer(FPROG)),
+  );
+  //Qukeys.setHoldTimeout(1000);
+  //Qukeys.setOverlapThreshold(50);
+  //Qukeys.setMinimumHoldTime(100);
+  //Qukeys.setMinimumPriorInterval(80);
+  //Qukeys.setMaxIntervalForTapRepeat(150);
+
   // First, call Kaleidoscope's internal setup function
   Kaleidoscope.setup();
 
