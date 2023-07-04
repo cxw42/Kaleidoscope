@@ -196,13 +196,36 @@ enum {
   */
 
 enum {
-  PRIMARY,
-  NUMPAD,
-  FUNCTION,
+  PRIMARY,  // default
+  NUMPAD,   // Num toggle active
+  FUNCTION, // Fn held
+  FPROG,    // Prog (qukey) held
   NUM_LAYERS,
 };  // layers
 
 STATIC_ASSERT(NUM_LAYERS <= LAYER_SPACE, "Increase LAYER_SPACE to save room for that many layers");
+
+// Custom keys - punctuation.  The HID_* values are in
+// Kaleidoscope:src/kaleidoscope/key_defs/keyboard.h .  SHIFT_HELD is in
+// Kaleidoscope:src/kaleidoscope/key_defs.h .
+#define CustomKey_Bang Key(HID_KEYBOARD_1_AND_EXCLAMATION_POINT, SHIFT_HELD)
+#define CustomKey_At Key(HID_KEYBOARD_2_AND_AT, SHIFT_HELD)
+#define CustomKey_Pound Key(HID_KEYBOARD_3_AND_POUND, SHIFT_HELD)
+#define CustomKey_Dollar Key(HID_KEYBOARD_4_AND_DOLLAR, SHIFT_HELD)
+#define CustomKey_Percent Key(HID_KEYBOARD_5_AND_PERCENT, SHIFT_HELD)
+#define CustomKey_Caret Key(HID_KEYBOARD_6_AND_CARAT, SHIFT_HELD)
+#define CustomKey_Ampersand Key(HID_KEYBOARD_7_AND_AMPERSAND, SHIFT_HELD)
+#define CustomKey_Asterisk Key(HID_KEYBOARD_8_AND_ASTERISK, SHIFT_HELD)
+#define CustomKey_LParen Key(HID_KEYBOARD_9_AND_LEFT_PAREN, SHIFT_HELD)
+#define CustomKey_RParen Key(HID_KEYBOARD_0_AND_RIGHT_PAREN, SHIFT_HELD)
+
+#define CustomKey_LAngle Key(HID_KEYBOARD_COMMA_AND_LESS_THAN, SHIFT_HELD)
+#define CustomKey_RAngle Key(HID_KEYBOARD_PERIOD_AND_GREATER_THAN, SHIFT_HELD)
+
+#define CustomKey_AltF4 Key(HID_KEYBOARD_F4, LALT_HELD)
+
+#define CustomKey_DQuote Key(HID_KEYBOARD_QUOTE_AND_DOUBLEQUOTE, SHIFT_HELD)
+
 
 /* This comment temporarily turns off astyle's indent enforcement
  *   so we can make the keymaps actually resemble the physical key layout better
@@ -212,17 +235,20 @@ STATIC_ASSERT(NUM_LAYERS <= LAYER_SPACE, "Increase LAYER_SPACE to save room for 
 KEYMAPS(
 
   [PRIMARY] = KEYMAP_STACKED
-  (Key_Escape,   Key_1, Key_2, Key_3, Key_4, Key_5, Key_LEDEffectNext,
+  (Key_Escape,   Key_1, Key_2, Key_3, Key_4, Key_5, Key_Insert,
    Key_Backtick, Key_Q, Key_W, Key_E, Key_R, Key_T, Key_Tab,
    Key_PageUp,   Key_A, Key_S, Key_D, Key_F, Key_G,
    Key_PageDown, Key_Z, Key_X, Key_C, Key_V, Key_B, Key_LeftShift,
+
    Key_LeftControl, Key_Backspace, Key_LeftGui, Key_LeftShift,
    ShiftToLayer(FUNCTION),
 
-   ___,           Key_6, Key_7, Key_8,     Key_9,         Key_0,         LockLayer(NUMPAD),
+   // Right hand //
+   Key_LeftGui,   Key_6, Key_7, Key_8,     Key_9,         Key_0,         LockLayer(NUMPAD),
    Key_Enter,     Key_Y, Key_U, Key_I,     Key_O,         Key_P,         Key_Equals,
                   Key_H, Key_J, Key_K,     Key_L,         Key_Semicolon, Key_Quote,
    Key_Minus,     Key_N, Key_M, Key_Comma, Key_Period,    Key_Slash,     Key_Minus,
+
    Key_RightShift, Key_RightAlt, Key_Spacebar, Key_RightControl,
    ShiftToLayer(FUNCTION)),
 
@@ -230,32 +256,50 @@ KEYMAPS(
   [NUMPAD] =  KEYMAP_STACKED
   (___, ___, ___, ___, ___, ___, ___,
    ___, ___, ___, ___, ___, ___, ___,
-   ___, ___, ___, ___, ___, ___,
-   ___, ___, ___, ___, ___, ___, ___,
+   ___, ___, ___, ___, ___, ___, /**/
+   M(MACRO_VERSION_INFO), ___, ___, ___, ___, ___, ___,
    ___, ___, ___, ___,
    ___,
 
-   M(MACRO_VERSION_INFO),  ___, Key_7, Key_8,      Key_9,              Key_KeypadSubtract, ___,
+   ___,                    CustomKey_Caret, Key_7, Key_8,      Key_9,              Key_KeypadSubtract, ___,
    ___,                    ___, Key_4, Key_5,      Key_6,              Key_KeypadAdd,      ___,
-                           ___, Key_1, Key_2,      Key_3,              Key_Equals,         ___,
+   /**/                    ___, Key_1, Key_2,      Key_3,              Key_Equals,         ___,
    ___,                    ___, Key_0, Key_Period, Key_KeypadMultiply, Key_KeypadDivide,   Key_Enter,
    ___, ___, ___, ___,
    ___),
 
+  // Fn keys - controls and punctuation
   [FUNCTION] =  KEYMAP_STACKED
-  (___,      Key_F1,           Key_F2,      Key_F3,     Key_F4,        Key_F5,           Key_CapsLock,
-   Key_Tab,  ___,              Key_mouseUp, ___,        Key_mouseBtnR, Key_mouseWarpEnd, Key_mouseWarpNE,
-   Key_Home, Key_mouseL,       Key_mouseDn, Key_mouseR, Key_mouseBtnL, Key_mouseWarpNW,
-   Key_End,  Key_PrintScreen,  Key_Insert,  ___,        Key_mouseBtnM, Key_mouseWarpSW,  Key_mouseWarpSE,
+  (___,                     CustomKey_Bang,   CustomKey_At,      CustomKey_Pound,  CustomKey_Dollar, CustomKey_Percent,  Key_CapsLock,
+   ___,                     Key_mouseWarpNW,  Key_mouseUp,       Key_mouseWarpNE,  Key_mouseBtnR,    Consumer_AC_Home,   Consumer_AC_Forward,
+   Key_Home,                Key_mouseL,       Key_mouseWarpEnd,  Key_mouseR,       Key_Tab,          Consumer_AC_Back,   /**/
+   Key_End,                 Key_mouseWarpSW,  Key_mouseDn,       Key_mouseWarpSE,  Key_mouseBtnM,    Key_PrintScreen,    ___,
    ___, Key_Delete, ___, ___,
    ___,
 
+   ___,                   CustomKey_Caret, CustomKey_Ampersand,   CustomKey_Asterisk,     CustomKey_LParen, CustomKey_RParen, Key_F11,
+   ___,                   Key_Backslash,   Key_LeftCurlyBracket,  Key_RightCurlyBracket,  Key_LeftBracket,  Key_RightBracket, ___,
+   /**/                   Key_LeftArrow,   Key_DownArrow,         Key_UpArrow,            Key_RightArrow,   ___,              CustomKey_DQuote,
+   Key_Pipe,              ___,             ___,                   CustomKey_LAngle,       CustomKey_RAngle, Key_Backslash,    Consumer_AL_Calculator,
+   ___, ___, ___, ___,
+   ___),
+
+  // When Prog is held --- see QUKEYS below
+  [FPROG] =  KEYMAP_STACKED
+  (___,      Key_F1,                            Key_F2,            Key_F3,           Key_F4,        Key_F5,  ___,
+   ___, ___, CustomKey_AltF4 /* P+W = Close */, ___, ___, ___, ___,
+   ___, ___, ___, ___, Key_mouseBtnL, ___, /**/
+   ___, ___, ___, ___, ___, ___, ___,
+   ___, ___, ___, ___,
+   ___,
+
    Consumer_ScanPreviousTrack, Key_F6,                 Key_F7,                   Key_F8,                   Key_F9,          Key_F10,          Key_F11,
-   Consumer_PlaySlashPause,    Consumer_ScanNextTrack, Key_LeftCurlyBracket,     Key_RightCurlyBracket,    Key_LeftBracket, Key_RightBracket, Key_F12,
-                               Key_LeftArrow,          Key_DownArrow,            Key_UpArrow,              Key_RightArrow,  ___,              ___,
-   Key_PcApplication,          Consumer_Mute,          Consumer_VolumeDecrement, Consumer_VolumeIncrement, ___,             Key_Backslash,    Key_Pipe,
-   ___, ___, Key_Enter, ___,
+   Consumer_PlaySlashPause,    Consumer_ScanNextTrack, ___,                       ___,                      ___,    ___,      Key_F12,
+   /**/                        ___,                    Consumer_VolumeDecrement,  Consumer_VolumeIncrement, ___,    ___,      ___,
+   M(MACRO_VERSION_INFO),      Consumer_Mute,          ___,                       ___,                      ___,    ___,      ___,
+   ___, ___, ___, ___,
    ___)
+
 ) // KEYMAPS(
 
 /* Re-enable astyle's indent enforcement */
@@ -331,8 +375,6 @@ const macro_t *macroAction(uint8_t macro_id, KeyEvent &event) {
 // These 'solid' color effect definitions define a rainbow of
 // LED color modes calibrated to draw 500mA or less on the
 // Keyboardio Model 100.
-
-
 static kaleidoscope::plugin::LEDSolidColor solidRed(160, 0, 0);
 static kaleidoscope::plugin::LEDSolidColor solidOrange(140, 70, 0);
 static kaleidoscope::plugin::LEDSolidColor solidYellow(130, 100, 0);
