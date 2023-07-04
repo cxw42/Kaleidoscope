@@ -29,7 +29,7 @@
 #endif
 
 /* How many layers we save room for in the EEPROM */
-#define LAYER_SPACE (8)
+#define LAYER_SPACE (5)
 
 /**
  * These #include directives pull in the Kaleidoscope firmware core,
@@ -372,17 +372,6 @@ const macro_t *macroAction(uint8_t macro_id, KeyEvent &event) {
 }
 
 
-// These 'solid' color effect definitions define a rainbow of
-// LED color modes calibrated to draw 500mA or less on the
-// Keyboardio Model 100.
-static kaleidoscope::plugin::LEDSolidColor solidRed(160, 0, 0);
-static kaleidoscope::plugin::LEDSolidColor solidOrange(140, 70, 0);
-static kaleidoscope::plugin::LEDSolidColor solidYellow(130, 100, 0);
-static kaleidoscope::plugin::LEDSolidColor solidGreen(0, 160, 0);
-static kaleidoscope::plugin::LEDSolidColor solidBlue(0, 70, 130);
-static kaleidoscope::plugin::LEDSolidColor solidIndigo(0, 0, 170);
-static kaleidoscope::plugin::LEDSolidColor solidViolet(130, 0, 120);
-
 /** toggleLedsOnSuspendResume toggles the LEDs off when the host goes to sleep,
  * and turns them back on when it wakes up.
  */
@@ -556,15 +545,6 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // your keyboard. Spoiler: the blue pixel never catches the red pixel
   //LEDChaseEffect,
 
-  // These static effects turn your keyboard's LEDs a variety of colors
-  solidRed,
-  //solidOrange,
-  //solidYellow,
-  //solidGreen,
-  //solidBlue,
-  //solidIndigo,
-  //solidViolet,
-
   // The breathe effect slowly pulses all of the LEDs on your keyboard
   //LEDBreatheEffect,
 
@@ -665,9 +645,9 @@ void setup() {
   EEPROMKeymap.setup(NUM_LAYERS);
 
   // We need to tell the Colormap plugin how many layers we want to have custom
-  // maps for. To make things simple, we set it to eight layers, which is how
-  // many editable layers we have (see above).
-  // ColormapEffect.max_layers(NUM_LAYERS);
+  // maps for.
+  ColormapEffect.max_layers(NUM_LAYERS);
+  ColormapEffect.activate();
 
   // For Dynamic Macros, we need to reserve storage space for the editable
   // macros. A kilobyte is a reasonable default.
@@ -691,8 +671,6 @@ void setup() {
   // This is because I am using substantially the same firmware here as on
   // my Model01.
   Layer.getKey = Layer.getKeyFromPROGMEM;
-
-  solidRed.activate();
 }
 
 /** loop is the second of the standard Arduino sketch functions.
