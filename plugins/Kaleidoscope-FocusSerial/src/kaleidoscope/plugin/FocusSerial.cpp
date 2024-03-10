@@ -61,7 +61,7 @@ EventHandlerResult FocusSerial::afterEachCycle() {
   }
 
   // Then process the command
-  Runtime.onFocusEvent(input_);
+  const auto focusResult = Runtime.onFocusEvent(input_);
   while (Runtime.serialPort().available()) {
     c = Runtime.serialPort().read();
     if (c == NEWLINE) {
@@ -70,17 +70,31 @@ EventHandlerResult FocusSerial::afterEachCycle() {
       break;
     }
   }
-  // End of command processing is signalled with a CRLF followed by a single period
-  Runtime.serialPort().println(F("\r\n."));
+
+  if(focusResult != EventHandlerResult::ABORT) {
+    // End of command processing is signalled with a CRLF followed by a single period
+    Runtime.serialPort().println(F("\r\n."));
+  }
   buf_cursor_ = 0;
   memset(input_, 0, sizeof(input_));
   return EventHandlerResult::OK;
 }
 
+// Process a command.
+// Returns EventHandlerResult::ABORT if a \r\n should NOT be printed.
+// However, the buffers should still be flushed/reset even on ABORT.
 EventHandlerResult FocusSerial::onFocusEvent(const char *input) {
   const char *cmd_help    = PSTR("help");
   const char *cmd_reset   = PSTR("device.reset");
   const char *cmd_plugins = PSTR("plugins");
+
+  if (
+      inputMatchesCommand(input, PSTR("M105")) ||
+      inputMatchesCommand(input, PSTR("M105\r"))
+  ) {
+    // M105 from Cura --- ignore it
+    return EventHandlerResult::ABORT;
+  }
 
   if (inputMatchesHelp(input))
     return printHelp(cmd_help, cmd_reset, cmd_plugins);
