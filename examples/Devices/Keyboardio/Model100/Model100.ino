@@ -204,7 +204,8 @@ STATIC_ASSERT(NUM_LAYERS <= LAYER_SPACE, "Increase LAYER_SPACE to save room for 
 KEYMAPS(
 
   [PRIMARY] = KEYMAP_STACKED
-  (Key_Escape,   Key_1, Key_2, Key_3, Key_4, Key_5, Key_Insert,
+  (Key_Escape,   Key_1, Key_2, Key_3, Key_4, Key_5,
+                                                    Key_Insert,
    Key_Backtick, Key_Q, Key_W, Key_E, Key_R, Key_T, Key_Tab,
    Key_PageUp,   Key_A, Key_S, Key_D, Key_F, Key_G,
    Key_PageDown, Key_Z, Key_X, Key_C, Key_V, Key_B, Key_LeftShift,
@@ -220,7 +221,6 @@ KEYMAPS(
 
    Key_RightShift, Key_RightAlt, Key_Spacebar, Key_RightControl,
    ShiftToLayer(FUNCTION)),
-
 
   [NUMPAD] =  KEYMAP_STACKED
   (___, ___, ___, ___, ___, ___, ___,
@@ -258,7 +258,7 @@ KEYMAPS(
   (___,      Key_F1,                            Key_F2,            Key_F3,           Key_F4,        Key_F5,  ___,
    ___, ___, CustomKey_AltF4 /* P+W = Close */, ___, ___, ___, ___,
    ___, ___, ___, ___, Key_mouseBtnL, ___, /**/
-   ___, ___, ___, ___, ___, ___, ___,
+   ___, ___, ___, ___, ___, ___, Key_Pause /* FP+Esc = Pause/Break */,
    ___, ___, ___, ___,
    ___,
 
@@ -267,7 +267,7 @@ KEYMAPS(
    /**/                        ___,                    Consumer_VolumeDecrement,  Consumer_VolumeIncrement, ___,    ___,      ___,
    M(MACRO_VERSION_INFO),      Consumer_Mute,          ___,                       ___,                      ___,    ___,      ___,
    ___, ___, ___, ___,
-   ___)
+   ___),
 
 ) // KEYMAPS(
 
