@@ -70,9 +70,6 @@
 // Support for turning the LEDs off after a certain amount of time
 #include "Kaleidoscope-IdleLEDs.h"
 
-// Support for overlaying colors
-#include "Kaleidoscope-Colormap-Overlay.h"
-
 // Support for setting and saving the default LED mode
 #include "Kaleidoscope-DefaultLEDModeConfig.h"
 
@@ -273,37 +270,6 @@ KEYMAPS(
 
 /* Re-enable astyle's indent enforcement */
 // clang-format on
-
-#define RGB_UNSET CRGB(0x00, 0x00, 0x00)
-#define RGB_RED   CRGB(0xff, 0x00, 0x00)
-
-// Set up a default palette to be use for the Colormap and Colormap-Overlay
-// plugins
-PALETTE(
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_UNSET,
-  RGB_RED)  // PALETTE(
 
 /** versionInfoMacro handles the 'firmware version info' macro
  *  When a key bound to the macro is pressed, this macro
